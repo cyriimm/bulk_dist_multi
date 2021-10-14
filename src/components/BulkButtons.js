@@ -34,7 +34,7 @@ export default function BulkButtons() {
 
     async function makeTransaction2(address,qt,key,mint) {
         console.log('these are the decimals')
-        let number = 2;
+        let number = 6;
 
 
         if (new PublicKey(key).equals(wallet.publicKey)){
@@ -46,6 +46,7 @@ export default function BulkButtons() {
         if (!amount || amount <= 0) {
             throw new Error('Invalid amount');
         }
+
         console.log("COIN");
         return wallet.transferToken(
             key,
@@ -57,7 +58,13 @@ export default function BulkButtons() {
             overrideDestinationCheck,
         );
     }
-    async function sendTransactionAuto(address,qt,key,mint){
+    async function sendTransactionAuto(address,qt,key,mint,index){
+
+
+        if (index%2===0) {
+            await sleep(50);
+            console.log("SLEEEEEEP");
+        }
 
         return await sendTransaction(makeTransaction2(address,qt,key,mint),address+' - '+qt +" " +qt+ '\n',address+' - '+qt +" " +qt+ '\n');
 
@@ -65,8 +72,13 @@ export default function BulkButtons() {
 
 
     async function bulkSend() {
+        let i = 0;
         csv.map(line => {
+            i++;
+
             try {
+
+
                 setTimeout(async () => {
                     let [address,amount,key,mint] = line.map(l => {return l.trim()});
                     console.log(address)
@@ -93,9 +105,7 @@ export default function BulkButtons() {
                         console.log('txn executing  for ', address);
                         setTimeout(function(){
 
-                            sendTransactionAuto(address,amount,key_new,mint_new)
-
-
+                            sendTransactionAuto(address,amount,key_new,mint_new,i)
 
                         },5000);
 
