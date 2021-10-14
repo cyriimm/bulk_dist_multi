@@ -32,9 +32,9 @@ export default function BulkButtons() {
 
   let { amount } = balanceInfo || {};
 
-    async function makeTransaction2(address,qt,key,mint) {
+    async function makeTransaction2(address,qt,key,mint,decimal) {
         console.log('these are the decimals')
-        let number = 6;
+        let number = parseInt(decimal);
 
 
         if (new PublicKey(key).equals(wallet.publicKey)){
@@ -58,29 +58,21 @@ export default function BulkButtons() {
             overrideDestinationCheck,
         );
     }
-    async function sendTransactionAuto(address,qt,key,mint,index){
+    async function sendTransactionAuto(address,qt,key,mint,decimal){
 
-
-        if (index%2===0) {
-            await sleep(50);
-            console.log("SLEEEEEEP");
-        }
-
-        return await sendTransaction(makeTransaction2(address,qt,key,mint),address+' - '+qt +" " +qt+ '\n',address+' - '+qt +" " +qt+ '\n');
+        await sleep(50);
+        return await sendTransaction(makeTransaction2(address,qt,key,mint,decimal),address+' - '+qt +" " +qt+ '\n',address+' - '+qt +" " +qt+ '\n');
 
     }
 
 
     async function bulkSend() {
-        let i = 0;
         csv.map(line => {
-            i++;
-
             try {
 
 
                 setTimeout(async () => {
-                    let [address,amount,key,mint] = line.map(l => {return l.trim()});
+                    let [address,amount,key,mint,decimal] = line.map(l => {return l.trim()});
                     console.log(address)
                     //coin = coin.toUpperCase();
 
@@ -105,7 +97,7 @@ export default function BulkButtons() {
                         console.log('txn executing  for ', address);
                         setTimeout(function(){
 
-                            sendTransactionAuto(address,amount,key_new,mint_new,i)
+                            sendTransactionAuto(address,amount,key_new,mint_new,decimal)
 
                         },5000);
 
