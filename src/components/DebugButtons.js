@@ -65,6 +65,8 @@ export default function DebugButtons() {
   const spacing = 24;
   return (
     <div style={{ display: 'flex', marginLeft: spacing }}>
+
+
       <Tooltip
         title={
           requestAirdropDisabled

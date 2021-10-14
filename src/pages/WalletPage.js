@@ -4,6 +4,7 @@ import BalancesList from '../components/BalancesList';
 import Grid from '@material-ui/core/Grid';
 import { useIsProdNetwork } from '../utils/connection';
 import DebugButtons from '../components/DebugButtons';
+import BulkButtons from '../components/BulkButtons';
 import { makeStyles } from '@material-ui/core';
 import { useIsExtensionWidth } from '../utils/utils';
 
@@ -29,10 +30,16 @@ export default function WalletPage() {
   const isExtensionWidth = useIsExtensionWidth();
   return (
     <Container fixed maxWidth="md" className={classes.container}>
+
+      <Grid item xs={12}>
+        <BulkButtons />
+      </Grid>
+
+      <br>
+      </br>
+      <br>
+      </br>
       <Grid container spacing={isExtensionWidth ? 0 : 3}>
-        <Grid item xs={12} className={classes.balancesContainer}>
-          <BalancesList />
-        </Grid>
         {isProdNetwork ? null : (
           <Grid item xs={12}>
             <DebugButtons />
